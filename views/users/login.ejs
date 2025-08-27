@@ -1,0 +1,370 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  /* Added comprehensive travel-themed styling and animations for login page */
+  :root {
+    --ocean-blue: #0077be;
+    --sunset-orange: #ff6b35;
+    --forest-green: #2d5016;
+    --sand-beige: #f4e4bc;
+    --coral-pink: #ff7f7f;
+    --sky-light: #87ceeb;
+    --deep-teal: #008080;
+    --warm-gold: #ffd700;
+  }
+
+  .login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--ocean-blue) 0%, var(--deep-teal) 50%, var(--forest-green) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="travel" patternUnits="userSpaceOnUse" width="20" height="20"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23travel)"/></svg>');
+    animation: float 20s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+  }
+
+  .login-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    max-width: 450px;
+    width: 100%;
+    position: relative;
+    animation: slideInUp 0.8s ease-out;
+    transform-origin: center bottom;
+  }
+
+  @keyframes slideInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(100px) scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .login-title {
+    text-align: center;
+    color: var(--ocean-blue);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, var(--ocean-blue), var(--deep-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+    position: relative;
+  }
+
+  .login-title::after {
+    content: '✈️';
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: fly 4s ease-in-out infinite;
+  }
+
+  @keyframes fly {
+    0%, 100% { transform: translateY(-50%) translateX(0px) rotate(0deg); }
+    25% { transform: translateY(-60%) translateX(10px) rotate(5deg); }
+    75% { transform: translateY(-40%) translateX(-5px) rotate(-5deg); }
+  }
+
+  @keyframes shimmer {
+    0%, 100% { background-position: -200% center; }
+    50% { background-position: 200% center; }
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+    animation: fadeInLeft 0.6s ease-out;
+    animation-fill-mode: both;
+  }
+
+  .form-group:nth-child(1) { animation-delay: 0.2s; }
+  .form-group:nth-child(2) { animation-delay: 0.4s; }
+  .form-group:nth-child(3) { animation-delay: 0.6s; }
+
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .form-label {
+    color: var(--forest-green);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+    transition: all 0.3s ease;
+  }
+
+  .form-control {
+    border: 2px solid rgba(0, 119, 190, 0.2);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    position: relative;
+  }
+
+  .form-control:focus {
+    border-color: var(--ocean-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 119, 190, 0.25), 0 8px 25px rgba(0, 119, 190, 0.15);
+    background: white;
+    transform: translateY(-2px);
+  }
+
+  .form-control:hover {
+    border-color: var(--deep-teal);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .login-btn {
+    background: linear-gradient(135deg, var(--ocean-blue), var(--deep-teal));
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out 0.8s both;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .login-btn:hover::before {
+    left: 100%;
+  }
+
+  .login-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 119, 190, 0.4);
+    background: linear-gradient(135deg, var(--deep-teal), var(--ocean-blue));
+  }
+
+  .login-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 119, 190, 0.3);
+  }
+
+  /* Floating elements animation */
+  .floating-element {
+    position: absolute;
+    opacity: 0.1;
+    animation: floatAround 15s linear infinite;
+  }
+
+  .floating-element:nth-child(1) {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .floating-element:nth-child(2) {
+    top: 20%;
+    right: 10%;
+    animation-delay: 5s;
+  }
+
+  .floating-element:nth-child(3) {
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 10s;
+  }
+
+  @keyframes floatAround {
+    0% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-20px) rotate(90deg); }
+    50% { transform: translateY(0px) rotate(180deg); }
+    75% { transform: translateY(20px) rotate(270deg); }
+    100% { transform: translateY(0px) rotate(360deg); }
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .login-card {
+      margin: 1rem;
+      padding: 2rem;
+    }
+    
+    .login-title {
+      font-size: 2rem;
+    }
+    
+    .login-title::after {
+      right: -30px;
+    }
+  }
+
+  /* Input validation styling */
+  .form-control:valid {
+    border-color: var(--forest-green);
+  }
+
+  .form-control:invalid:not(:placeholder-shown) {
+    border-color: var(--coral-pink);
+    animation: shake 0.5s ease-in-out;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Loading animation for form submission */
+  .login-btn.loading {
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  .login-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+  }
+</style>
+
+<div class="login-container">
+  <!-- Added floating decorative elements -->
+  <div class="floating-element">🏝️</div>
+  <div class="floating-element">🗺️</div>
+  <div class="floating-element">🧳</div>
+  
+  <div class="login-card">
+    <!-- Enhanced title with travel theme -->
+    <h1 class="login-title">Welcome Back</h1>
+    
+    <form action="/login" method="post" class="needs-validation" novalidate>
+      <!-- Enhanced form groups with better styling -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <input  
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input  
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+
+      <!-- Enhanced button with loading animation -->
+      <button type="submit" class="login-btn" onclick="this.classList.add('loading')">
+        Login to Your Adventure
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.needs-validation');
+    const inputs = document.querySelectorAll('.form-control');
+    
+    // Add focus animations
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.querySelector('.form-label').style.color = 'var(--ocean-blue)';
+        this.parentElement.querySelector('.form-label').style.transform = 'translateY(-2px)';
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.querySelector('.form-label').style.color = 'var(--forest-green)';
+        this.parentElement.querySelector('.form-label').style.transform = 'translateY(0)';
+      });
+    });
+    
+    // Form submission handling
+    form.addEventListener('submit', function(event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+        document.querySelector('.login-btn').classList.remove('loading');
+      }
+      form.classList.add('was-validated');
+    });
+  });
+</script>

@@ -1,0 +1,469 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    /* Adding comprehensive next-level CSS with multiple animations */
+    :root {
+        --travel-primary: #2563eb;
+        --travel-secondary: #0ea5e9;
+        --travel-accent: #f59e0b;
+        --travel-success: #10b981;
+        --travel-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --travel-ocean: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        --travel-sunset: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+        --travel-forest: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    }
+
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #74b9ff 50%, #0984e3 75%, #00b894 100%);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Floating travel elements background */
+    .travel-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .floating-icon {
+        position: absolute;
+        font-size: 2rem;
+        opacity: 0.1;
+        animation: float 6s ease-in-out infinite;
+        color: white;
+    }
+
+    .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+    .floating-icon:nth-child(3) { top: 60%; left: 5%; animation-delay: 2s; }
+    .floating-icon:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 3s; }
+    .floating-icon:nth-child(5) { bottom: 40%; left: 20%; animation-delay: 4s; }
+    .floating-icon:nth-child(6) { top: 40%; right: 5%; animation-delay: 5s; }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        33% { transform: translateY(-20px) rotate(5deg); }
+        66% { transform: translateY(10px) rotate(-3deg); }
+    }
+
+    /* Particle system */
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        animation: particleFloat 8s linear infinite;
+    }
+
+    @keyframes particleFloat {
+        0% { transform: translateY(100vh) scale(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-100px) scale(1); opacity: 0; }
+    }
+
+    .container {
+        position: relative;
+        z-index: 10;
+    }
+
+    .signup-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 25px;
+        padding: 3rem;
+        box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.2),
+            0 0 0 1px rgba(255, 255, 255, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        animation: slideInUp 1s ease-out, glow 3s ease-in-out infinite alternate;
+        transform-origin: center;
+        margin-top: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .signup-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        animation: shimmer 3s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes slideInUp {
+        0% { 
+            transform: translateY(100px) scale(0.8); 
+            opacity: 0; 
+        }
+        100% { 
+            transform: translateY(0) scale(1); 
+            opacity: 1; 
+        }
+    }
+
+    @keyframes glow {
+        0% { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 0 20px rgba(116, 185, 255, 0.3); }
+        100% { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 0 40px rgba(116, 185, 255, 0.6); }
+    }
+
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .signup-title {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 2rem;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        animation: titleSlide 1.2s ease-out 0.3s both, textGlow 2s ease-in-out infinite alternate;
+        position: relative;
+    }
+
+    .signup-title::after {
+        content: '✈️';
+        position: absolute;
+        right: -50px;
+        top: 50%;
+        transform: translateY(-50%);
+        animation: fly 3s ease-in-out infinite;
+    }
+
+    @keyframes titleSlide {
+        0% { 
+            transform: translateX(-100px); 
+            opacity: 0; 
+        }
+        100% { 
+            transform: translateX(0); 
+            opacity: 1; 
+        }
+    }
+
+    @keyframes textGlow {
+        0% { text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.2); }
+        100% { text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.4); }
+    }
+
+    @keyframes fly {
+        0%, 100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+        25% { transform: translateY(-60%) translateX(10px) rotate(10deg); }
+        75% { transform: translateY(-40%) translateX(-5px) rotate(-5deg); }
+    }
+
+    .form-group {
+        margin-bottom: 2rem;
+        animation: fadeInLeft 0.8s ease-out both;
+        position: relative;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.5s; }
+    .form-group:nth-child(2) { animation-delay: 0.7s; }
+    .form-group:nth-child(3) { animation-delay: 0.9s; }
+    .form-group:nth-child(4) { animation-delay: 1.1s; }
+
+    @keyframes fadeInLeft {
+        0% { 
+            transform: translateX(-50px); 
+            opacity: 0; 
+        }
+        100% { 
+            transform: translateX(0); 
+            opacity: 1; 
+        }
+    }
+
+    .form-label {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+        display: block;
+        font-size: 1.1rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        padding: 1rem 1.5rem;
+        color: white;
+        font-size: 1.1rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        position: relative;
+    }
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--travel-accent);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 
+            0 0 0 4px rgba(245, 158, 11, 0.2),
+            0 8px 25px rgba(245, 158, 11, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .form-control:focus + .form-label {
+        color: var(--travel-accent);
+        transform: translateY(-2px);
+    }
+
+    .valid-feedback {
+        color: var(--travel-success);
+        font-weight: 600;
+        margin-top: 0.5rem;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+    .form-control:valid + .valid-feedback {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .signup-btn {
+        background: linear-gradient(135deg, var(--travel-accent) 0%, #e17055 100%);
+        border: none;
+        border-radius: 15px;
+        padding: 1rem 3rem;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        animation: buttonSlide 1s ease-out 1.3s both;
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .signup-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .signup-btn:hover::before {
+        left: 100%;
+    }
+
+    .signup-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 35px rgba(245, 158, 11, 0.4);
+        background: linear-gradient(135deg, #f39c12 0%, #d63031 100%);
+    }
+
+    .signup-btn:active {
+        transform: translateY(-1px) scale(1.02);
+    }
+
+    @keyframes buttonSlide {
+        0% { 
+            transform: translateY(50px) scale(0.8); 
+            opacity: 0; 
+        }
+        100% { 
+            transform: translateY(0) scale(1); 
+            opacity: 1; 
+        }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .signup-container {
+            margin: 1rem;
+            padding: 2rem 1.5rem;
+        }
+        
+        .signup-title {
+            font-size: 2rem;
+        }
+        
+        .signup-title::after {
+            right: -30px;
+            font-size: 1.5rem;
+        }
+    }
+
+    /* Loading animation for form submission */
+    .signup-btn.loading {
+        pointer-events: none;
+        background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+    }
+
+    .signup-btn.loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid transparent;
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<!-- Travel background elements -->
+<div class="travel-bg">
+    <div class="floating-icon">🏔️</div>
+    <div class="floating-icon">🏖️</div>
+    <div class="floating-icon">🏛️</div>
+    <div class="floating-icon">🌴</div>
+    <div class="floating-icon">⛵</div>
+    <div class="floating-icon">🗺️</div>
+</div>
+
+<!-- Particle system -->
+<div class="particles" id="particles"></div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="signup-container">
+                <h1 class="signup-title">Join WanderLust</h1>
+                <form action="/signup" method="post" class="needs-validation" novalidate>
+                    <div class="form-group mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input  
+                            name="username" 
+                            id="username"
+                            type="text" 
+                            class="form-control"
+                            placeholder="Choose your adventure name"
+                            required/>
+                        <div class="valid-feedback">Perfect! Ready for adventure!</div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input  
+                            name="email" 
+                            id="email"
+                            type="email" 
+                            class="form-control"
+                            placeholder="your.email@wanderlust.com"
+                            required/>
+                        <div class="valid-feedback">Great! We'll send you amazing travel deals!</div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input  
+                            name="password" 
+                            id="password"
+                            type="password" 
+                            class="form-control"
+                            placeholder="Create a secure password"
+                            required/>
+                        <div class="valid-feedback">Strong password! Your account is secure!</div>
+                    </div>
+                    
+                    <button class="signup-btn" type="submit">Start Your Journey</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Create floating particles
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // Form validation and submission
+    document.addEventListener('DOMContentLoaded', function() {
+        createParticles();
+        
+        const form = document.querySelector('.needs-validation');
+        const submitBtn = document.querySelector('.signup-btn');
+        
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                submitBtn.classList.add('loading');
+                submitBtn.textContent = 'Creating Account...';
+            }
+            form.classList.add('was-validated');
+        });
+
+        // Enhanced input interactions
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    });
+</script>

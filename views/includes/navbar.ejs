@@ -1,0 +1,259 @@
+<style>
+  :root {
+    --ocean-blue: #0077be;
+    --sunset-orange: #ff6b35;
+    --coral-pink: #ff8a80;
+    --forest-green: #2e7d32;
+    --sky-blue: #87ceeb;
+    --warm-white: #fefefe;
+    --soft-gray: #f5f5f5;
+    --dark-gray: #333;
+  }
+
+  .navbar {
+    background: linear-gradient(135deg, var(--warm-white) 0%, var(--soft-gray) 100%) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 119, 190, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideDown 0.6s ease-out;
+    border: none !important;
+    border-bottom: 2px solid rgba(0, 119, 190, 0.1) !important;
+  }
+
+  .navbar:hover {
+    box-shadow: 0 6px 30px rgba(0, 119, 190, 0.15);
+    transform: translateY(-1px);
+  }
+
+  .navbar-brand {
+    font-size: 2rem;
+    color: var(--ocean-blue) !important;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+  }
+
+  .navbar-brand:hover {
+    color: var(--sunset-orange) !important;
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .navbar-nav .nav-link {
+    color: var(--dark-gray) !important;
+    font-weight: 600;
+    margin: 0 0.5rem;
+    padding: 0.75rem 1rem !important;
+    border-radius: 25px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .navbar-nav .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+  }
+
+  .navbar-nav .nav-link:hover::before {
+    left: 100%;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: var(--ocean-blue) !important;
+    background: linear-gradient(135deg, var(--sky-blue), var(--coral-pink));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
+  }
+
+  .form-control {
+    border: 2px solid var(--sky-blue);
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+  }
+
+  .form-control:focus {
+    border-color: var(--ocean-blue);
+    box-shadow: 0 0 20px rgba(0, 119, 190, 0.3);
+    transform: scale(1.02);
+    background: white;
+  }
+
+  .btn-search {
+    background: linear-gradient(135deg, var(--ocean-blue), var(--sunset-orange)) !important;
+    color: white !important;
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-search::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-search:hover::before {
+    left: 100%;
+  }
+
+  .btn-search:hover {
+    background: linear-gradient(135deg, var(--sunset-orange), var(--coral-pink)) !important;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  }
+
+  .navbar-toggler {
+    border: 2px solid var(--ocean-blue);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-toggler:hover {
+    background: var(--sky-blue);
+    transform: scale(1.1);
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 119, 190, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .navbar-nav:first-of-type {
+    animation: fadeInLeft 0.8s ease-out 0.2s both;
+  }
+
+  .navbar-nav:last-of-type {
+    animation: fadeInRight 0.8s ease-out 0.4s both;
+  }
+
+  .d-flex {
+    animation: fadeInRight 0.8s ease-out 0.3s both;
+  }
+
+  @media (max-width: 768px) {
+    .navbar-nav .nav-link {
+      margin: 0.25rem 0;
+      text-align: center;
+    }
+    
+    .d-flex {
+      margin: 1rem 0;
+      justify-content: center;
+    }
+    
+    .form-control {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .nav-link span, .navbar-nav span {
+    color: var(--forest-green) !important;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--sky-blue), var(--coral-pink));
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% {
+      background-position: -200% center;
+    }
+    50% {
+      background-position: 200% center;
+    }
+  }
+</style>
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+    <button class="navbar-toggler"
+     type="button" 
+     data-bs-toggle="collapse"
+     data-bs-target="#navbarNavAltMarkup" 
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings"><b>Explore</b></a>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+          <button class="btn btn-search" type="submit">Search</button>
+        </form>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new"><b>Add your home spot</b></a>
+        <% if (!currUser) { %>
+          <a class="nav-link active" href="/signup"><b>SignUp</b></a>
+          <a class="nav-link" href="/login"><b>Log In</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/logout"><b>Log Out</b></a>
+          <span class="nav-link">Welcome, <%= currUser.username %></span>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>

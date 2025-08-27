@@ -1,0 +1,393 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  /* Added comprehensive travel-themed styling and animations */
+  :root {
+    --ocean-blue: #0077be;
+    --sky-blue: #87ceeb;
+    --sunset-orange: #ff6b35;
+    --forest-green: #228b22;
+    --warm-yellow: #ffd700;
+  }
+
+  body {
+    background: #fffef7;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Floating travel icons animation */
+  body::before {
+    content: '✈️ 🏖️ 🏔️ 🏝️ 🗺️';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 2rem;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: -1;
+    animation: floatIcons 20s infinite linear;
+  }
+
+  @keyframes floatIcons {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(360deg); }
+  }
+
+  .edit-container {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 3rem;
+    margin: 4rem auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideUp 0.8s ease-out;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .edit-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  .edit-title {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInDown 1s ease-out 0.2s both;
+  }
+
+  .edit-title::after {
+    content: '✏️';
+    margin-left: 10px;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+  }
+
+  .form-group {
+    margin-bottom: 2rem;
+    animation: fadeInLeft 0.6s ease-out both;
+  }
+
+  .form-group:nth-child(2) { animation-delay: 0.1s; }
+  .form-group:nth-child(3) { animation-delay: 0.2s; }
+  .form-group:nth-child(4) { animation-delay: 0.3s; }
+  .form-group:nth-child(5) { animation-delay: 0.4s; }
+  .form-group:nth-child(6) { animation-delay: 0.5s; }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .form-label {
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    display: block;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--ocean-blue);
+    box-shadow: 0 0 20px rgba(0, 119, 190, 0.3);
+    transform: translateY(-2px);
+    outline: none;
+    color: white;
+  }
+
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .current-image {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    animation: fadeIn 1s ease-out;
+  }
+
+  .current-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .update-btn {
+    background: linear-gradient(135deg, var(--sunset-orange), var(--warm-yellow));
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin: 2rem auto 0;
+    animation: pulse 2s infinite;
+  }
+
+  .update-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .update-btn:hover::before {
+    left: 100%;
+  }
+
+  .update-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+  }
+
+  .update-btn:active {
+    transform: translateY(-1px);
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3); }
+    50% { box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5); }
+    100% { box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3); }
+  }
+
+  .row-animated {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .row-animated .form-group {
+    flex: 1;
+  }
+
+  .valid-feedback, .invalid-feedback {
+    color: var(--forest-green);
+    font-weight: 500;
+    margin-top: 0.5rem;
+  }
+
+  .invalid-feedback {
+    color: var(--sunset-orange);
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .edit-container {
+      margin: 2rem 1rem;
+      padding: 2rem;
+    }
+    
+    .edit-title {
+      font-size: 2rem;
+    }
+    
+    .row-animated {
+      flex-direction: column;
+    }
+    
+    .update-btn {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="edit-container">
+        <h3 class="edit-title">Edit Your Listing</h3>
+
+        <form method="POST" 
+              action="/listings/<%= listing._id %>?_method=PUT" 
+              class="needs-validation"
+              enctype="multipart/form-data"
+              novalidate>
+          
+          <!-- Title -->
+          <div class="form-group">
+            <label for="title" class="form-label">🏠 Enter Title</label>
+            <input 
+              id="title"
+              name="listing[title]"
+              value="<%= listing.title %>"
+              type="text"
+              class="form-control"
+              placeholder="Enter an amazing title for your listing"
+              required
+            >
+            <div class="valid-feedback">Title looks good!</div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description" class="form-label">📝 Enter Description</label>
+            <textarea
+              id="description"
+              name="listing[description]"
+              class="form-control"
+              rows="4"
+              placeholder="Describe your amazing place..."
+              required
+            ><%= listing.description %></textarea>
+            <div class="invalid-feedback">Please enter a short description</div>
+          </div>
+
+          <!-- Upload New Image -->
+          <div class="form-group">
+            <label for="image" class="form-label">📸 Upload New Image</label>
+            <input
+              id="image"
+              name="image"
+              class="form-control"
+              type="file"
+              accept="image/*"
+            >
+
+            <!-- Image Preview -->
+            <% if (listing.image && listing.image.url) { %>
+              <img src="<%= listing.image.url %>" 
+                   alt="Current image" 
+                   class="current-image mt-3" 
+                   style="max-height: 200px; width: 100%; object-fit: cover;">
+            <% } %>
+          </div>
+
+          <!-- Price & Country -->
+          <div class="row-animated">
+            <div class="form-group">
+              <label for="price" class="form-label">💰 Price</label>
+              <input
+                id="price"
+                name="listing[price]"
+                class="form-control"
+                value="<%= listing.price %>"
+                type="number"
+                min="0"
+                placeholder="₹1200"
+                required
+              >
+              <div class="invalid-feedback">Price should be valid</div>
+            </div>
+
+            <div class="form-group">
+              <label for="country" class="form-label">🌍 Country</label>
+              <input
+                id="country"
+                name="listing[country]"
+                class="form-control"
+                value="<%= listing.country %>"
+                type="text"
+                placeholder="India"
+                required
+              >
+              <div class="invalid-feedback">Country name should be valid</div>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            <label for="location" class="form-label">📍 Location</label>
+            <input
+              id="location"
+              name="listing[location]"
+              class="form-control"
+              value="<%= listing.location %>"
+              type="text"
+              placeholder="Enter the exact location"
+              required
+            >
+            <div class="invalid-feedback">Location should be valid</div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="update-btn">
+            ✨ Update Listing
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

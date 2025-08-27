@@ -1,0 +1,170 @@
+<% layout('layouts/boilerplate') %> 
+
+<div class="container my-5">
+
+  <!-- Listing Details -->
+  <div class="row mb-4">
+    <div class="col-md-7 mx-auto">
+      <div class="card shadow-lg border-0 overflow-hidden rounded-3 listing-card">
+        
+        <!-- Optimized Image -->
+        <img src="<%= listing.image?.url || 'https://via.placeholder.com/600x350' %>" 
+             class="card-img-top img-fluid" 
+             alt="listing_image"
+             style="max-height: 280px; object-fit: cover;">
+
+        <!-- Card Body -->
+        <div class="card-body p-3">
+          <h4 class="card-title fw-bold mb-2"><%= listing.title %></h4>
+          
+          <!-- Safe owner -->
+          <p class="card-text text-muted mb-3 lh-lg" style="font-size: 0.95rem;">
+            <i>Owned by <%= listing.owner ? listing.owner.username : "Unknown" %></i>
+          </p>
+
+          <p class="card-text"><i><%= listing.description %></i></p>
+          <p class="fs-6 fw-semibold text-dark mb-1">
+            <% if (listing.price) { %>
+              &#8377;<%= listing.price.toLocaleString("en-IN") %>
+            <% } else { %>
+              <i class="text-muted">Price not available</i>
+            <% } %>
+          </p>
+          <p class="text-muted small mb-0">
+            <i class="bi bi-geo-alt"></i> <%= listing.location %>, <%= listing.country %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP SECTION -->
+  <div class="row mb-4">
+    <div class="col-md-7 mx-auto">
+      <div id="map" style="height: 300px; border-radius: 10px;"></div>
+    </div>
+  </div>
+
+  <!-- Edit/Delete Buttons -->
+  <% if (currUser && listing.owner && currUser._id.toString() === listing.owner._id.toString()) { %>
+    <div class="row mb-5">
+      <div class="col-md-8 mx-auto text-center">
+        <a href="/listings/<%= listing._id %>/edit" 
+           class="btn btn-dark px-4 py-2 fw-semibold me-2 rounded-pill shadow-sm">
+           Edit
+        </a>
+        <form action="/listings/<%= listing._id %>?_method=DELETE" method="post" class="d-inline">
+          <button type="submit" 
+                  class="btn btn-outline-danger px-4 py-2 fw-semibold rounded-pill shadow-sm">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Review Form -->
+  <div class="row mb-5">
+    <div class="col-md-8 mx-auto">
+      <div class="card shadow-sm border-0 p-4 rounded-3">
+        
+      <% if (currUser) { %>
+        <!-- Title -->
+        <h4 class="mb-4 text-center fw-semibold">Leave a Review</h4>
+        
+        <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation lh-lg">
+          <!-- Rating -->
+          <div class="mb-4">
+            <label for="rating" class="form-label fw-bold">Rating</label>
+            <fieldset class="starability-slot">
+              <input type="radio" id="rate1" name="review[rating]" value="1">
+              <label for="rate1" title="Terrible">1 star</label>
+
+              <input type="radio" id="rate2" name="review[rating]" value="2">
+              <label for="rate2" title="Not good">2 stars</label>
+
+              <input type="radio" id="rate3" name="review[rating]" value="3">
+              <label for="rate3" title="Average">3 stars</label>
+
+              <input type="radio" id="rate4" name="review[rating]" value="4">
+              <label for="rate4" title="Very good">4 stars</label>
+
+              <input type="radio" id="rate5" name="review[rating]" value="5">
+              <label for="rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
+
+          <!-- Comment -->
+          <div class="mb-4">
+            <label for="comment" class="form-label fw-bold">Comment</label>
+            <textarea name="review[comment]" id="comment" rows="5" 
+                      class="form-control shadow-sm rounded-3" 
+                      placeholder="Share your experience..." required></textarea>
+            <div class="invalid-feedback">Please add some comments for reviews</div>
+          </div>
+
+          <!-- Submit -->
+          <div class="text-center">
+            <button class="btn btn-outline-dark px-5 py-2 fw-semibold rounded-pill shadow-sm">
+              Submit Review
+            </button>
+          </div>
+        </form>
+      <% } %>
+      </div>
+
+      <!-- All Reviews -->
+      <p class="mt-5 mb-3 fw-bold">All Reviews</p>
+      <div class="row">
+        <% for (let review of listing.reviews) { %>
+          <div class="card col-5 ms-3 mb-3 shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">
+                @<%= review.author ? review.author.username : "Anonymous" %>
+              </h5>
+
+              <!-- Show stars dynamically -->
+              <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
+
+              <!-- Review Comment -->
+              <p class="card-text"><%= review.comment %></p>
+            </div>
+
+            <!-- Delete Review -->
+            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" 
+                  class="mb-3" method="post">
+              <button class="btn btn-sm btn-dark">Delete</button>
+              
+            </form>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div> 
+</div>
+
+<!-- Leaflet.js CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+  // Securely inject listing object
+  const listing = <%- JSON.stringify(listing).replace(/</g, '\\u003c') %>;
+
+  // Use geometry if available, fallback to Delhi coords
+  const lat = listing.geometry?.coordinates[1] || 28.6139;
+  const lng = listing.geometry?.coordinates[0] || 77.2090;
+
+  // Init map
+  const map = L.map('map').setView([lat, lng], 12);
+
+  // Add tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Add marker + popup
+  L.marker([lat, lng]).addTo(map)
+    .bindPopup(`<b>${listing.title}</b><br>${listing.location}`)
+    .openPopup();
+</script>
